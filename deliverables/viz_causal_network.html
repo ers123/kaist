@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국제협력 장애요인 인과관계 네트워크</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        #network {
+            width: 100%;
+            height: 700px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .legend {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-node {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>국제협력 장애요인 인과관계 네트워크</h1>
+        <p class="subtitle">5대 구조적 문제의 상호 연결성과 악순환 구조 (노드를 드래그하거나 줌 인/아웃 가능)</p>
+
+        <div id="network"></div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-node" style="background: #e74c3c;"></div>
+                <span>정책/거버넌스 문제</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-node" style="background: #f39c12;"></div>
+                <span>예산/재정 문제</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-node" style="background: #3498db;"></div>
+                <span>인적자원 문제</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-node" style="background: #9b59b6;"></div>
+                <span>시스템/인프라 문제</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-node" style="background: #2ecc71;"></div>
+                <span>협력 결과</span>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>💡 주요 발견:</strong> 정책 분절화와 예산 불안정이 핵심 원인으로 작용하며, 파트너 신뢰 상실→프로젝트 실패→연구자 동기 저하로 이어지는 악순환 구조가 형성됨. 이 악순환을 끊기 위해서는 거버넌스와 예산 시스템의 동시 개혁이 필수적임.
+        </div>
+    </div>
+
+    <script>
+        // 노드 정의
+        const nodes = new vis.DataSet([
+            // 정책/거버넌스 (빨강)
+            {id: 1, label: '정책\n거버넌스\n파편화', group: 'policy', value: 30, title: '부처간 조정 실패, 일관된 전략 부재'},
+            {id: 2, label: '하향식\n정책 추진', group: 'policy', value: 20, title: '연구자 준비시간 미고려, 보여주기 협력'},
+
+            // 예산/재정 (주황)
+            {id: 3, label: '예산\n불안정성', group: 'budget', value: 30, title: '연간 예산 편성, 급격한 삭감'},
+            {id: 4, label: '단기 성과\n중심 평가', group: 'budget', value: 20, title: '3년 평가 vs 30년 표준화'},
+
+            // 인적자원 (파랑)
+            {id: 5, label: '인센티브\n왜곡', group: 'hr', value: 25, title: '논문/특허 중심, 국제협력 저평가'},
+            {id: 6, label: '전문인력\n부족', group: 'hr', value: 20, title: '순환보직, 경력 단절'},
+
+            // 시스템/인프라 (보라)
+            {id: 7, label: '전문지원\n인프라 부재', group: 'infra', value: 20, title: 'IPR/법률/계약 지원 부족'},
+            {id: 8, label: '행정절차\n복잡성', group: 'infra', value: 15, title: '과다한 승인/보고 절차'},
+
+            // 결과 (초록)
+            {id: 9, label: '파트너\n신뢰 상실', group: 'result', value: 25, title: '캐나다 SMART, 사우디 SMR 사례'},
+            {id: 10, label: '프로젝트\n실패', group: 'result', value: 20, title: '졸속 구성, 중도 취소'},
+            {id: 11, label: '연구자\n동기 저하', group: 'result', value: 20, title: '젊은 연구자 기피, 세대간 단절'},
+        ]);
+
+        // 엣지 정의 (인과관계)
+        const edges = new vis.DataSet([
+            // 정책→예산→인센티브 경로
+            {from: 1, to: 3, arrows: 'to', color: {color: '#e74c3c'}, width: 3, title: '부처별 분산 예산'},
+            {from: 1, to: 2, arrows: 'to', color: {color: '#e74c3c'}, width: 2, title: '조율 부재→급작스런 지시'},
+            {from: 3, to: 9, arrows: 'to', color: {color: '#f39c12'}, width: 4, title: '예산 삭감→약속 불이행'},
+            {from: 4, to: 5, arrows: 'to', color: {color: '#f39c12'}, width: 2, title: '단기 평가→국제협력 경시'},
+
+            // 인센티브→인력→실패 경로
+            {from: 5, to: 11, arrows: 'to', color: {color: '#3498db'}, width: 3, title: '보상 없음→참여 기피'},
+            {from: 5, to: 6, arrows: 'to', color: {color: '#3498db'}, width: 2, title: '경력 불리→전문가 이탈'},
+            {from: 6, to: 10, arrows: 'to', color: {color: '#3498db'}, width: 2, title: '전문성 부족→실행 실패'},
+
+            // 인프라→실패 경로
+            {from: 7, to: 10, arrows: 'to', color: {color: '#9b59b6'}, width: 2, title: 'IPR 분쟁→좌초'},
+            {from: 8, to: 11, arrows: 'to', color: {color: '#9b59b6'}, width: 2, title: '행정 부담→회피'},
+
+            // 하향식→실패 경로
+            {from: 2, to: 10, arrows: 'to', color: {color: '#e74c3c'}, width: 3, title: '졸속 구성→실패'},
+
+            // 결과 간 악순환
+            {from: 9, to: 10, arrows: 'to', color: {color: '#c0392b'}, width: 4, title: '신뢰 상실→협력 중단'},
+            {from: 10, to: 11, arrows: 'to', color: {color: '#c0392b'}, width: 3, title: '실패 경험→참여 기피'},
+
+            // 피드백 루프 (악순환)
+            {from: 11, to: 6, arrows: 'to', color: {color: '#7f8c8d'}, width: 2, dashes: true, title: '참여 감소→인력 부족'},
+            {from: 10, to: 3, arrows: 'to', color: {color: '#7f8c8d'}, width: 2, dashes: true, title: '실패→예산 추가 삭감'},
+        ]);
+
+        // 네트워크 옵션
+        const options = {
+            nodes: {
+                shape: 'circle',
+                font: {
+                    size: 13,
+                    face: 'Noto Sans KR',
+                    multi: 'html',
+                    bold: {
+                        size: 14
+                    }
+                },
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                smooth: {
+                    type: 'curvedCW',
+                    roundness: 0.2
+                },
+                font: {
+                    size: 10,
+                    align: 'middle'
+                }
+            },
+            groups: {
+                policy: {color: {background: '#e74c3c', border: '#c0392b'}},
+                budget: {color: {background: '#f39c12', border: '#d68910'}},
+                hr: {color: {background: '#3498db', border: '#2980b9'}},
+                infra: {color: {background: '#9b59b6', border: '#8e44ad'}},
+                result: {color: {background: '#2ecc71', border: '#27ae60'}}
+            },
+            physics: {
+                stabilization: {
+                    enabled: true,
+                    iterations: 200
+                },
+                barnesHut: {
+                    gravitationalConstant: -8000,
+                    springConstant: 0.01,
+                    springLength: 200
+                }
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 100,
+                navigationButtons: true,
+                keyboard: true
+            }
+        };
+
+        // 네트워크 생성
+        const container = document.getElementById('network');
+        const data = {nodes: nodes, edges: edges};
+        const network = new vis.Network(container, data, options);
+
+        // 초기 위치 최적화를 위한 레이아웃 조정
+        network.once('stabilized', function() {
+            network.fit();
+        });
+    </script>
+</body>
+</html>

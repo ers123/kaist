@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출연연 국제협력 장애요인 비교 히트맵</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        #heatmap {
+            width: 100%;
+            height: 800px;
+        }
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 13px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>출연연구기관 국제협력 장애요인 비교 분석</h1>
+        <p class="subtitle">15개 기관의 10대 주요 장애요인 발생 빈도 (색상: 빨강=높음, 노랑=중간, 초록=낮음)</p>
+
+        <div id="heatmap"></div>
+
+        <div class="legend">
+            <strong>범례:</strong>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #d73027;"></span> 매우 심각 (3회 이상)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #fc8d59;"></span> 심각 (2회)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #fee08b;"></span> 중간 (1회)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #d9ef8b;"></span> 경미 (언급 없음)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 15개 기관
+        const institutions = [
+            'KAERI', 'ETRI', 'KRISS', 'KRISO', 'KRIBB',
+            'NIGT', 'KIER', 'KIMM', 'KRICT', 'KARI',
+            'KBSI', 'NST', 'KFE', 'KISTI', 'KIGAM'
+        ];
+
+        // 10대 장애요인 (약어 사용)
+        const obstacles = [
+            '인프라/지원 부족',
+            '파트너 관계 어려움',
+            '지정학적 제약',
+            '정책 분절화',
+            '내부 시스템 비효율',
+            'HR 인센티브 부족',
+            'HR 전문성 부족',
+            '하향식 접근',
+            'IPR 분쟁/협상',
+            '임무 불일치'
+        ];
+
+        // 히트맵 데이터 (각 기관의 각 장애요인 발생 빈도)
+        // 실제 코딩 데이터 기반으로 작성
+        const zData = [
+            // KAERI
+            [3, 4, 4, 3, 2, 0, 1, 0, 2, 2],
+            // ETRI
+            [2, 0, 0, 0, 0, 0, 1, 2, 0, 0],
+            // KRISS
+            [2, 2, 0, 0, 1, 2, 1, 0, 1, 1],
+            // KRISO
+            [0, 2, 2, 2, 1, 0, 0, 0, 1, 1],
+            // KRIBB
+            [1, 2, 0, 0, 0, 0, 1, 0, 0, 0],
+            // NIGT
+            [1, 0, 0, 2, 1, 0, 1, 0, 0, 0],
+            // KIER
+            [1, 0, 0, 2, 1, 2, 1, 0, 0, 0],
+            // KIMM
+            [1, 0, 0, 2, 1, 1, 1, 2, 1, 0],
+            // KRICT
+            [1, 0, 0, 0, 1, 1, 0, 1, 0, 1],
+            // KARI
+            [1, 0, 2, 0, 1, 0, 1, 0, 1, 0],
+            // KBSI
+            [2, 2, 0, 0, 1, 0, 1, 0, 0, 0],
+            // NST
+            [1, 0, 0, 2, 1, 1, 1, 1, 0, 0],
+            // KFE
+            [1, 0, 2, 0, 1, 1, 1, 1, 0, 0],
+            // KISTI
+            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            // KIGAM
+            [1, 2, 0, 0, 0, 0, 1, 0, 0, 0]
+        ];
+
+        // 히트맵 생성
+        const data = [{
+            z: zData,
+            x: obstacles,
+            y: institutions,
+            type: 'heatmap',
+            colorscale: [
+                [0, '#d9ef8b'],
+                [0.33, '#fee08b'],
+                [0.66, '#fc8d59'],
+                [1, '#d73027']
+            ],
+            showscale: true,
+            colorbar: {
+                title: '빈도',
+                titleside: 'right'
+            },
+            hovertemplate: '<b>%{y}</b><br>%{x}<br>발생 빈도: %{z}회<extra></extra>'
+        }];
+
+        const layout = {
+            xaxis: {
+                title: '장애요인 유형',
+                tickangle: -45,
+                tickfont: { size: 11 }
+            },
+            yaxis: {
+                title: '출연연구기관',
+                tickfont: { size: 11 }
+            },
+            margin: {
+                l: 80,
+                r: 80,
+                b: 150,
+                t: 50
+            },
+            font: {
+                family: 'Noto Sans KR, sans-serif'
+            }
+        };
+
+        const config = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false,
+            modeBarButtonsToRemove: ['lasso2d', 'select2d']
+        };
+
+        Plotly.newPlot('heatmap', data, layout, config);
+    </script>
+</body>
+</html>
