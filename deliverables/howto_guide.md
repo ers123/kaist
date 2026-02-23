@@ -149,19 +149,19 @@ LLM 기반 분석을 통해 도출된 3대 구조적 장애요인:
 
 ### Git 히스토리로 본 실제 작업 흐름
 
-이 프로젝트의 Git 히스토리는 2025년 10월 27일부터 11월 18일까지 약 3주간의 집중적인 LLM 기반 분석 과정을 보여줍니다:
+이 프로젝트의 Git 히스토리는 집중적인 LLM 기반 분석 과정을 보여줍니다:
 
 ```
 # 실제 Git 히스토리 (시간순)
-2025-10-27  PR #1  claude/science-policy-interviews-*   전문가 피드백 생성
-2025-10-27  PR #2  claude/science-policy-interviews-*   피드백 보완 및 LLM 분석 비교
-2025-11-11  PR #3  claude/science-policy-interviews-*   최종 보고서 (5개 장)
-2025-11-14  PR #4  codex/analyze-and-code-interview-*    코딩 테이블 서사 맥락 추가
-2025-11-14  PR #5  codex/analyze-and-code-interview-*    소스/산출물 폴더 정리
-2025-11-14  PR #6  codex/improve-policy-memo-*           정책 메모 문체 개선
-2025-11-17  PR #7  claude/qualitative-policy-synthesis-*  종합 정책 분석
-2025-11-17  PR #8  claude/qualitative-policy-synthesis-*  한국어 번역
-2025-11-18  PR #9  claude/qualitative-policy-synthesis-*  최종 보고서 개정 + 시각화
+PR #1  claude/science-policy-interviews-*   전문가 피드백 생성
+PR #2  claude/science-policy-interviews-*   피드백 보완 및 LLM 분석 비교
+PR #3  claude/science-policy-interviews-*   최종 보고서 (5개 장)
+PR #4  codex/analyze-and-code-interview-*    코딩 테이블 서사 맥락 추가
+PR #5  codex/analyze-and-code-interview-*    소스/산출물 폴더 정리
+PR #6  codex/improve-policy-memo-*           정책 메모 문체 개선
+PR #7  claude/qualitative-policy-synthesis-*  종합 정책 분석
+PR #8  claude/qualitative-policy-synthesis-*  한국어 번역
+PR #9  claude/qualitative-policy-synthesis-*  최종 보고서 개정 + 시각화
 ```
 
 각 Pull Request(PR)는 Claude Code가 생성한 브랜치에서 작업한 결과물이며, 연구자가 검토(review)한 후 `main` 브랜치에 병합(merge)하는 방식으로 진행되었습니다. 이는 연구의 모든 과정이 **버전 관리되고 추적 가능한(traceable)** 형태로 기록됨을 의미합니다.
