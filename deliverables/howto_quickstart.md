@@ -2,7 +2,7 @@
 
 **"30분 안에 첫 분석 시작하기"**
 
-> 이 문서는 [풀 가이드(howto_guide.md)](howto_guide.md)의 핵심만 추린 빠른 시작 안내서입니다.
+> 이 문서는 [전체 가이드(howto_guide.md)](howto_guide.md)의 핵심만 추린 빠른 시작 안내서입니다.
 > Git/GitHub이 처음이라면 먼저 [연구자를 위한 GitHub 입문 가이드(howto_github_for_researchers.md)](howto_github_for_researchers.md)를 읽어주세요.
 
 ---
@@ -40,7 +40,7 @@ Step 5  검증 및 산출물 정리                   ⏱ 1-2일
 | **Gemini 접근** | 코드북 초안 설계 (긴 컨텍스트) | [gemini.google.com](https://gemini.google.com) |
 | **인터뷰 전사 데이터** | 분석 원본 자료 | Google Docs/PDF/Excel 등 |
 
-**CLI vs 웹 버전**: 이 가이드는 **Claude Code 웹 버전**(claude.ai에서 GitHub 리포를 연동하는 방식)을 기준으로 합니다. 터미널에 익숙하다면 CLI 버전도 동일한 워크플로우로 사용할 수 있습니다.
+**CLI(Command-Line Interface) vs 웹 버전**: 이 가이드는 **Claude Code 웹 버전**(claude.ai에서 GitHub 리포를 연동하는 방식)을 기준으로 합니다. 터미널에 익숙하다면 CLI 버전도 동일한 워크플로우로 사용할 수 있습니다.
 
 ---
 
